@@ -3,7 +3,7 @@
  * Plugin Name: ClassicPress contributors
  * Plugin URI: https://software.gieffeedizioni.it
  * Description: List ClassicPress contributors between tags.
- * Version: 1.0.0
+ * Version: 1.1.0
  * License: GPL2
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Author: Gieffe edizioni srl
@@ -77,6 +77,7 @@ class CpContributors {
 	}
 
 	public function maybe_resolve_github_username($name) {
+		$name = trim($name, ' .');
 		if (strpos($name, ' ') !== false) {
 			return $name;
 		}
@@ -144,6 +145,7 @@ class CpContributors {
 			$to_tag   = sanitize_text_field(wp_unslash($_REQUEST['to_tag']));
 			$commits  = $this->get_github_commits($from_tag, $to_tag);
 			$authors  = [];
+			$props    = [];
 			$messages = [];
 
 			foreach ($commits as $commit) {
@@ -152,10 +154,21 @@ class CpContributors {
 				$coauthors_usernames = $matches[1];
 				$coauthors = array_map([$this, 'maybe_resolve_github_username'], $coauthors_usernames);
 				$authors = $this->array_iunique(array_merge($authors, $coauthors, [$this->maybe_resolve_github_username($commit['commit']['author']['name'])]));
+				preg_match_all('/^WP:Props (.*)$/m', $commit['commit']['message'], $matches);
+				$props_usernames = [];
+				foreach ($matches[1] as $match) {
+					$props_usernames = array_merge($props_usernames, explode(',', $match));
+				}
+				foreach ($props_usernames as $username) {
+					$props = $this->array_iunique(array_merge($props, [$this->maybe_resolve_github_username($username)]));
+				}
 			}
+
 			echo '<h2>Committers from '.esc_attr($from_tag).' to '.esc_attr($to_tag).'</h2>';
 			echo '<h3>All committers</h3>';
 			echo esc_html(implode(', ', $authors)).'.';
+			echo '<h3>All props</h3>';
+			echo esc_html(implode(', ', $props)).'.';
 			echo '<h3>ClassicPress committers (in random order)</h3>';
 			$cp_authors = array_intersect($authors, $this->get_cp_contributors());
 			shuffle($cp_authors);
