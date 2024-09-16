@@ -34,7 +34,7 @@ class CpContributors {
 		add_action('admin_menu', [$this, 'create_menu'], 100);
 		add_action('admin_enqueue_scripts', [$this, 'scripts']);
 		$user_cache = get_transient('cp_contributors_user_cache');
-		if ($user_cache === false) {
+		if ($user_cache === false || true) {
 			return;
 		}
 		$this->user_cache = $user_cache;
@@ -123,6 +123,7 @@ class CpContributors {
 	}
 
 	function format_commit($text) {
+		$text = preg_replace('/`([^`]*)`/', '<code>$1</code>', $text);
 		$text = preg_replace('/#([0-9]*)/', '<a target="_blank" href="https://github.com/ClassicPress/ClassicPress/pull/$1">#$1</a>', $text);
 		return $text;
 	}
