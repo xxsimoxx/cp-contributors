@@ -33,6 +33,18 @@ class CpContributors {
 	public function __construct() {
 		add_action('admin_menu', [$this, 'create_menu'], 100);
 		add_action('admin_enqueue_scripts', [$this, 'scripts']);
+		$user_cache = get_transient('cp_contributors_user_cache');
+		if ($user_cache === false) {
+			return;
+		}
+		$this->user_cache = $user_cache;
+	}
+
+	public function __destruct() {
+		if (empty($this->user_cache)) {
+			return;
+		}
+		set_transient('cp_contributors_user_cache', $this->user_cache, 5 * MINUTE_IN_SECONDS);
 	}
 
 	private function get_cp_contributors() {
