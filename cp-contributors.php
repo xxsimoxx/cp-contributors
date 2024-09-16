@@ -98,6 +98,7 @@ class CpContributors {
 		}
 		$r = $this->get_github_endpoint('https://api.github.com/users/'.$name);
 		if (isset($r['status']) && $r['status'] === '404') {
+			$this->user_cache[$name] = $name;
 			return $name;
 		}
 		if (array_key_exists('name', $r)) {
@@ -122,8 +123,6 @@ class CpContributors {
 	}
 
 	function format_commit($text) {
-		// $text = preg_replace('/\x60([^\x60]*)\x60/', '<code>$1</code>', $text);
-		// $text = preg_replace('/\'([^\']*)\'/', '<code>$1</code>', $text);
 		$text = preg_replace('/#([0-9]*)/', '<a target="_blank" href="https://github.com/ClassicPress/ClassicPress/pull/$1">#$1</a>', $text);
 		return $text;
 	}
