@@ -179,6 +179,8 @@ class CpContributors {
 			echo '<h2>Committers from '.esc_attr($from_tag).' to '.esc_attr($to_tag).'</h2>';
 			echo '<h3>All committers</h3>';
 			echo esc_html(implode(', ', $authors)).'.';
+			echo '<h3>WordPress committers</h3>';
+			echo esc_html(implode(', ', array_diff($authors, $this->get_cp_contributors()))).'.';
 			echo '<h3>All props</h3>';
 			echo esc_html(implode(', ', $props)).'.';
 			echo '<h3>ClassicPress committers (in random order)</h3>';
