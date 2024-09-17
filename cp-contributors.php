@@ -3,7 +3,7 @@
  * Plugin Name: ClassicPress contributors
  * Plugin URI: https://software.gieffeedizioni.it
  * Description: List ClassicPress contributors between tags.
- * Version: 1.2.0
+ * Version: 1.3.0
  * License: GPL2
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Author: Gieffe edizioni srl
@@ -20,35 +20,20 @@ if (!defined('ABSPATH')) {
 
 class CpContributors {
 
-	public $user_cache = [];
 	private $screen = '';
 	const SLUG = 'cp-contributors';
 	const CONTRIBUTORS = [
-		'renovate[bot]',
-		'Matt Robinson',
-		'Simone Fioravanti',
-		'Tim Kaye',
+		'renovate[bot]'         => 'renovate[bot]',
+		'ClassyBot Releases'    => 'ClassyBot Releases',
+		'ClassicPress Releases' => 'ClassicPress Releases',
+		'mattyrob'              => 'Matt Robinson',
+		'xxsimoxx'              => 'Simone Fioravanti',
+		'KTS915'                => 'Tim Kaye',
 	];
 
 	public function __construct() {
 		add_action('admin_menu', [$this, 'create_menu'], 100);
 		add_action('admin_enqueue_scripts', [$this, 'scripts']);
-		$user_cache = get_transient('cp_contributors_user_cache');
-		if ($user_cache === false || true) {
-			return;
-		}
-		$this->user_cache = $user_cache;
-	}
-
-	public function __destruct() {
-		if (empty($this->user_cache)) {
-			return;
-		}
-		set_transient('cp_contributors_user_cache', $this->user_cache, 1 * HOUR_IN_SECONDS);
-	}
-
-	private function get_cp_contributors() {
-		return apply_filters('cp_contributors_contributors', self::CONTRIBUTORS);
 	}
 
 	private function array_iunique($array) {
@@ -88,22 +73,15 @@ class CpContributors {
 		return $r['commits'];
 	}
 
+	public function get_cp_contributors() {
+		return SELF::CONTRIBUTORS;
+	}
+
 	public function maybe_resolve_github_username($name) {
 		$name = trim($name, ' .');
-		if (strpos($name, ' ') !== false) {
-			return $name;
-		}
-		if (array_key_exists($name, $this->user_cache)) {
-			return $this->user_cache[$name];
-		}
-		$r = $this->get_github_endpoint('https://api.github.com/users/'.$name);
-		if (isset($r['status']) && $r['status'] === '404') {
-			$this->user_cache[$name] = $name;
-			return $name;
-		}
-		if (array_key_exists('name', $r)) {
-			$this->user_cache[$name] = $r['name'] ?? $name;
-			return $r['name'] ?? $name;
+		$cp_contributors = $this->get_cp_contributors();
+		if (isset($cp_contributors[$name])) {
+			return $cp_contributors[$name];
 		}
 		return $name;
 	}
