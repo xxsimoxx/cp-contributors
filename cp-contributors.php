@@ -74,7 +74,7 @@ class CpContributors {
 	}
 
 	public function get_cp_contributors() {
-		return SELF::CONTRIBUTORS;
+		return self::CONTRIBUTORS;
 	}
 
 	public function maybe_resolve_github_username($name) {
