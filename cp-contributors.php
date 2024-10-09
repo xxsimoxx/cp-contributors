@@ -3,7 +3,7 @@
  * Plugin Name: ClassicPress contributors
  * Plugin URI: https://software.gieffeedizioni.it
  * Description: List ClassicPress contributors between tags.
- * Version: 1.3.1
+ * Version: 1.4.0
  * License: GPL2
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Author: Gieffe edizioni srl
@@ -139,6 +139,7 @@ class CpContributors {
 			$commits  = $this->get_github_commits($from_tag, $to_tag);
 			$authors  = [];
 			$props    = [];
+			$cp_props = [];
 			$messages = [];
 
 			foreach ($commits as $commit) {
@@ -147,13 +148,23 @@ class CpContributors {
 				$coauthors_usernames = $matches[1];
 				$coauthors = array_map([$this, 'maybe_resolve_github_username'], $coauthors_usernames);
 				$authors = $this->array_iunique(array_merge($authors, $coauthors, [$this->maybe_resolve_github_username($commit['commit']['author']['name'])]));
-				preg_match_all('/^WP:Props (.*)$/m', $commit['commit']['message'], $matches);
+
+				preg_match_all('/^(?:WP:)?Props (.*)$/m', $commit['commit']['message'], $matches);
 				$props_usernames = [];
 				foreach ($matches[1] as $match) {
 					$props_usernames = array_merge($props_usernames, explode(',', $match));
 				}
 				foreach ($props_usernames as $username) {
 					$props = $this->array_iunique(array_merge($props, [$this->maybe_resolve_github_username($username)]));
+				}
+
+				preg_match_all('/^CP:Props (.*)$/m', $commit['commit']['message'], $matches);
+				$cp_props_usernames = [];
+				foreach ($matches[1] as $match) {
+					$cp_props_usernames = array_merge($cp_props_usernames, explode(',', $match));
+				}
+				foreach ($cp_props_usernames as $username) {
+					$cp_props = $this->array_iunique(array_merge($props, [$this->maybe_resolve_github_username($username)]));
 				}
 			}
 
@@ -162,8 +173,10 @@ class CpContributors {
 			echo esc_html(implode(', ', $authors)).'.';
 			echo '<h3>WordPress committers</h3>';
 			echo esc_html(implode(', ', array_diff($authors, $this->get_cp_contributors()))).'.';
-			echo '<h3>All props</h3>';
+			echo '<h3>WordPress props</h3>';
 			echo esc_html(implode(', ', $props)).'.';
+			echo '<h3>ClassicPress props</h3>';
+			echo esc_html(implode(', ', $cp_props)).'.';
 			echo '<h3>ClassicPress committers (in random order)</h3>';
 			$cp_authors = array_intersect($authors, $this->get_cp_contributors());
 			shuffle($cp_authors);
