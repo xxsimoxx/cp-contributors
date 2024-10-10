@@ -3,7 +3,7 @@
  * Plugin Name: ClassicPress contributors
  * Plugin URI: https://software.gieffeedizioni.it
  * Description: List ClassicPress contributors between tags.
- * Version: 1.4.0
+ * Version: 1.4.1
  * License: GPL2
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Author: Gieffe edizioni srl
@@ -164,7 +164,7 @@ class CpContributors {
 					$cp_props_usernames = array_merge($cp_props_usernames, explode(',', $match));
 				}
 				foreach ($cp_props_usernames as $username) {
-					$cp_props = $this->array_iunique(array_merge($props, [$this->maybe_resolve_github_username($username)]));
+					$cp_props = $this->array_iunique(array_merge($cp_props, [$this->maybe_resolve_github_username($username)]));
 				}
 			}
 
