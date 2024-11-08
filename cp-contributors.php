@@ -3,7 +3,7 @@
  * Plugin Name: ClassicPress contributors
  * Plugin URI: https://software.gieffeedizioni.it
  * Description: List ClassicPress contributors between tags.
- * Version: 1.4.1
+ * Version: 1.4.2
  * License: GPL2
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Author: Gieffe edizioni srl
@@ -30,8 +30,14 @@ class CpContributors {
 		'xxsimoxx'              => 'Simone Fioravanti',
 		'KTS915'                => 'Tim Kaye',
 		'elisabettac77'         => 'Elisabetta Carrara',
-		'wolffe '               => 'Ciprian Popescu',
+		'wolffe'                => 'Ciprian Popescu',
 		'zcraber'               => 'Joseph',
+		'johnbillion'           => 'John Blackbourn',
+		'pattonwebz'            => 'William Patton',
+		'mwaters'               => 'Mark Waters',
+		'stefangabos'           => 'Stefan Gabos',
+		'bahiirwa'              => 'Laurence Bahiirwa',
+		'ginsterbusch'          => 'Fabian Wolf',
 	];
 
 	public function __construct() {
@@ -158,7 +164,7 @@ class CpContributors {
 					$props = $this->array_iunique(array_merge($props, [$this->maybe_resolve_github_username($username)]));
 				}
 
-				preg_match_all('/^CP:Props (.*)$/m', $commit['commit']['message'], $matches);
+				preg_match_all('/^CP[\: ]Props\:? (.*)$/m', $commit['commit']['message'], $matches);
 				$cp_props_usernames = [];
 				foreach ($matches[1] as $match) {
 					$cp_props_usernames = array_merge($cp_props_usernames, explode(',', $match));
