@@ -43,6 +43,7 @@ class CpContributors {
 	public function __construct() {
 		add_action('admin_menu', [$this, 'create_menu'], 100);
 		add_action('admin_enqueue_scripts', [$this, 'scripts']);
+		add_action('admin_head', [$this, 'help']);
 	}
 
 	private function array_iunique($array) {
@@ -202,6 +203,34 @@ class CpContributors {
 			return;
 		}
 		wp_enqueue_script(self::SLUG.'-js', plugin_dir_url(__FILE__).'js/'.self::SLUG.'-settings.js', [], '1.0.0', false);
+	}
+
+	public function help() {
+
+		$screen = get_current_screen();
+		if (!str_ends_with($screen->{'id'}, self::SLUG)) {
+			return;
+		}
+
+		$content = '<h1>ClassicPress Contributors</h1>
+
+<p>Extract from GitHub ClassicPress (and WordPress) core contributors and Props usernames between two tags.<p>
+
+<ul>
+<li>ClassicPress core contributors identified statically (a new contributor must be hardcoded in this plugin).</li>
+<li><code>Props</code> and <code>WP:Props</code> are recognized as WordPress Props.</li>
+<li><code>CP:Props</code> and <code>CP Props:</code> are recognized as ClassicPress Props.</li>
+</ul>
+<i> Add your GitHub access token to <code>wp-config.php</code> to use GitHub API without limitations.<br>
+<code>define(&quot;GITHUB_API_TOKEN&quot;, &quot;ghp_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX&quot;);</code></i>
+';
+
+		$screen->add_help_tab([
+			'id' 		=> self::SLUG.'-help',
+			'title' 	=> 'ClassicPress Contributors',
+			'content' 	=> wp_kses_post($content),
+		]);
+
 	}
 
 }
