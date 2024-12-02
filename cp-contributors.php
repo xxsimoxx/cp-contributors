@@ -3,7 +3,7 @@
  * Plugin Name: ClassicPress contributors
  * Plugin URI: https://software.gieffeedizioni.it
  * Description: List ClassicPress contributors between tags.
- * Version: 1.4.2
+ * Version: 1.4.3
  * License: GPL2
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Author: Gieffe edizioni srl
@@ -117,10 +117,20 @@ class CpContributors {
 	}
 
 	public function render_page() {
-		$tags = $this->get_github_tags();
-
 		echo '<div class="wrap">';
 		echo '<h1>ClassicPress Contributors</h1>';
+
+		if (defined('\GITHUB_API_TOKEN')) {
+			$check_token = $this->get_github_endpoint('https://api.github.com/');
+			if (is_array($check_token) && isset($check_token['status'])) {
+				printf( '<div class="%1$s"><p>%2$s</p></div>', esc_attr('notice notice-error'), esc_html('Error with your GitHub Personal Access Token'));
+				echo '</div>';
+				exit;
+			}
+		}
+
+		$tags = $this->get_github_tags();
+
 		echo '<form action="'.esc_url_raw(admin_url('admin.php?page='.self::SLUG)).'" method="POST">';
 		wp_nonce_field('contributors', '_cpc');
 
