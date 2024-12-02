@@ -88,7 +88,7 @@ class CpContributors {
 	}
 
 	public function maybe_resolve_github_username($name) {
-		$name = trim($name, ' .');
+		$name = trim(trim($name, ' .'));
 		$cp_contributors = $this->get_cp_contributors();
 		if (isset($cp_contributors[$name])) {
 			return $cp_contributors[$name];
