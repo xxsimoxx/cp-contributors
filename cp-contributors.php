@@ -88,7 +88,7 @@ class CpContributors {
 	}
 
 	public function maybe_resolve_github_username($name) {
-		$name = trim(trim($name, ' .'));
+		$name = trim(trim($name), ' .');
 		$cp_contributors = $this->get_cp_contributors();
 		if (isset($cp_contributors[$name])) {
 			return $cp_contributors[$name];
@@ -116,14 +116,14 @@ class CpContributors {
 		return $text;
 	}
 
-	public function render_page() {
+	public function render_page() { //phpcs:ignore Generic.Metrics.CyclomaticComplexity.TooHigh
 		echo '<div class="wrap">';
 		echo '<h1>ClassicPress Contributors</h1>';
 
 		if (defined('\GITHUB_API_TOKEN')) {
 			$check_token = $this->get_github_endpoint('https://api.github.com/');
 			if (is_array($check_token) && isset($check_token['status'])) {
-				printf( '<div class="%1$s"><p>%2$s</p></div>', esc_attr('notice notice-error'), esc_html('Error with your GitHub Personal Access Token'));
+				printf('<div class="%1$s"><p>%2$s</p></div>', esc_attr('notice notice-error'), esc_html('Error with your GitHub Personal Access Token'));
 				echo '</div>';
 				exit;
 			}
