@@ -38,6 +38,7 @@ class CpContributors {
 		'stefangabos'           => 'Stefan Gabos',
 		'bahiirwa'              => 'Laurence Bahiirwa',
 		'ginsterbusch'          => 'Fabian Wolf',
+		'dshanske'              => 'David Shanske',
 	];
 
 	public function __construct() {
