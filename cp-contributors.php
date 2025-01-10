@@ -39,7 +39,7 @@ class CpContributors {
 		'bahiirwa'              => 'Laurence Bahiirwa',
 		'ginsterbusch'          => 'Fabian Wolf',
 		'dshanske'              => 'David Shanske',
-		'tradesouthwest'        => 'Larry Judd Oliver',
+		'tradesouthwest'        => 'Tradesouthwest',
 	];
 
 	public function __construct() {
