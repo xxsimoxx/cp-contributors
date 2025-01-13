@@ -40,6 +40,7 @@ class CpContributors {
 		'ginsterbusch'          => 'Fabian Wolf',
 		'dshanske'              => 'David Shanske',
 		'tradesouthwest'        => 'Tradesouthwest',
+		'citrika'               => 'Gabriela (@citrika)',
 	];
 
 	public function __construct() {
