@@ -3,7 +3,7 @@
  * Plugin Name: ClassicPress contributors
  * Plugin URI: https://software.gieffeedizioni.it
  * Description: List ClassicPress contributors between tags.
- * Version: 1.4.3
+ * Version: 1.4.4
  * License: GPL2
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Author: Gieffe edizioni srl
@@ -13,10 +13,6 @@
  */
 
 namespace XXSimoXX\CpContributors;
-
-if (!defined('ABSPATH')) {
-	die('-1');
-}
 
 class CpContributors {
 
@@ -30,6 +26,7 @@ class CpContributors {
 		'xxsimoxx'              => 'Simone Fioravanti',
 		'KTS915'                => 'Tim Kaye',
 		'elisabettac77'         => 'Elisabetta Carrara',
+		'ElisabettaCarrara'     => 'Elisabetta Carrara',
 		'wolffe'                => 'Ciprian Popescu',
 		'zcraber'               => 'Joseph',
 		'johnbillion'           => 'John Blackbourn',
@@ -41,9 +38,13 @@ class CpContributors {
 		'dshanske'              => 'David Shanske',
 		'tradesouthwest'        => 'Tradesouthwest',
 		'citrika'               => 'Gabriela (@citrika)',
+		'Guido07111975'         => 'Guido (@Guido07111975)',
 	];
 
 	public function __construct() {
+		if (!defined('ABSPATH')) {
+			return;
+		}
 		add_action('admin_menu', [$this, 'create_menu'], 100);
 		add_action('admin_enqueue_scripts', [$this, 'scripts']);
 		add_action('admin_head', [$this, 'help']);
@@ -115,7 +116,7 @@ class CpContributors {
 
 	function format_commit($text) {
 		$text = preg_replace('/`([^`]*)`/', '<code>$1</code>', $text);
-		$text = preg_replace('/#([0-9]*)/', '<a target="_blank" href="https://github.com/ClassicPress/ClassicPress/pull/$1">#$1</a>', $text);
+		$text = preg_replace('/#([0-9]+)/', '<a target="_blank" href="https://github.com/ClassicPress/ClassicPress/pull/$1">#$1</a>', $text);
 		return $text;
 	}
 
@@ -168,7 +169,6 @@ class CpContributors {
 				$coauthors_usernames = $matches[1];
 				$coauthors = array_map([$this, 'maybe_resolve_github_username'], $coauthors_usernames);
 				$authors = $this->array_iunique(array_merge($authors, $coauthors, [$this->maybe_resolve_github_username($commit['commit']['author']['name'])]));
-
 				preg_match_all('/^(?:WP:)?Props (.*)$/m', $commit['commit']['message'], $matches);
 				$props_usernames = [];
 				foreach ($matches[1] as $match) {
