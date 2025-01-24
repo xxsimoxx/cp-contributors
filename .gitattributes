@@ -2,3 +2,5 @@
 .gitattributes export-ignore
 devtools export-ignore
 .gitignore export-ignore
+tests export-ignore
+composer.* export-ignore
