@@ -16,7 +16,7 @@ final class CpContributorsTest extends TestCase {
 
 	public function names() {
 		return [
-			['xxsimoxx', 'Simone Fioravant'],
+			['xxsimoxx', 'Simone Fioravanti'],
 			['Tim Kaye', 'Tim Kaye'],
 			['user0notexists', 'user0notexists'],
 			[' user0notexists .', 'user0notexists']
