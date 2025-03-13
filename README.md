@@ -7,7 +7,7 @@ Extract from GitHub ClassicPress (and WordPress) core contributors and Props use
 
 ## Notes
 
-- ClassicPress core contributors identified statically (a new contributor must be hardcoded in this plugin).
+- ClassicPress core contributors are identified statically (a new contributor must be hardcoded in this plugin).
 - `Props` and `WP:Props` are recognized as WordPress Props.
 - `CP:Props` and `CP Props:` are recognized as ClassicPress Props.
 
