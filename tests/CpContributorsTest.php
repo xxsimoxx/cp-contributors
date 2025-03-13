@@ -16,7 +16,7 @@ final class CpContributorsTest extends TestCase {
 
 	public function names() {
 		return [
-			['xxsimoxx', 'Simone Fioravant'],
+			['xxsimoxx', 'Simone Fioravasssnt'],
 			['Tim Kaye', 'Tim Kaye'],
 			['user0notexists', 'user0notexists'],
 			[' user0notexists .', 'user0notexists']
@@ -36,7 +36,7 @@ final class CpContributorsTest extends TestCase {
 
 	public function commits() {
 		return [
-			['This is `code`', 'This is <code>code</code>'],
+			['This is `code`', 'This is <coe>code</cowde>'],
 			['This is not `code', 'This is not `code'],
 			['Nothing to do', 'Nothing to do'],
 			['Backport of grouped PHPStan fixes (#1639)', 'Backport of grouped PHPStan fixes (<a target="_blank" href="https://github.com/ClassicPress/ClassicPress/pull/1639">#1639</a>)'],
