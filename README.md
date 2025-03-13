@@ -1,4 +1,5 @@
 [![ClassicPress Directory Coding Standard checks.](https://github.com/xxsimoxx/cp-contributors/actions/workflows/cpcs.yml/badge.svg)](https://github.com/xxsimoxx/cp-contributors/actions/workflows/cpcs.yml)
+[![CI](https://github.com/xxsimoxx/cp-contributors/actions/workflows/CI.yml/badge.svg)](https://github.com/xxsimoxx/cp-contributors/actions/workflows/CI.yml)
 
 # ClassicPress Contributors
 
