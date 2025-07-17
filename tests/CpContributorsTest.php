@@ -4,8 +4,8 @@ use PHPUnit\Framework\TestCase;
 final class CpContributorsTest extends TestCase {
 
 	/**
-     * @dataProvider names
-     */
+	 * @dataProvider names
+	 */
 	public function test_maybe_resolve_github_username(string $input, string $expected):void {
 		$contributors = new \XXSimoXX\CpContributors\CpContributors();
 		$this->assertEquals(
@@ -19,13 +19,13 @@ final class CpContributorsTest extends TestCase {
 			['xxsimoxx', 'Simone Fioravanti'],
 			['Tim Kaye', 'Tim Kaye'],
 			['user0notexists', 'user0notexists'],
-			[' user0notexists .', 'user0notexists']
+			[' user0notexists .', 'user0notexists'],
 		];
 	}
 
 	/**
-     * @dataProvider commits
-     */
+	 * @dataProvider commits
+	 */
 	public function test_format_commit(string $input, string $expected):void {
 		$contributors = new \XXSimoXX\CpContributors\CpContributors();
 		$this->assertEquals(
