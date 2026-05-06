@@ -47,6 +47,9 @@ class CpContributors {
 		'sybrew'                => 'Sybre Waaijer',
 		'rodrigoprimo'          => 'Rodrigo Primo',
 	];
+	const FILTERED = [
+		'Thank you for reaching out to GitHub Support!',
+	];
 
 	public function __construct() {
 		if (!defined('ABSPATH')) {
@@ -188,6 +191,9 @@ class CpContributors {
 				preg_match_all('/^CP[\: ]Props\:? (.*)$/m', $commit['commit']['message'], $matches);
 				$cp_props_usernames = [];
 				foreach ($matches[1] as $match) {
+					if (in_array($match, self::FILTERED)) {
+						continue;
+					}
 					$cp_props_usernames = array_merge($cp_props_usernames, explode(',', $match));
 				}
 				foreach ($cp_props_usernames as $username) {
