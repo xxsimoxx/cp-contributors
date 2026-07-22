@@ -49,6 +49,8 @@ class CpContributors {
 	];
 	const FILTERED = [
 		'Thank you for reaching out to GitHub Support!',
+		'mattyrob xxsimoxx',
+		'CP:Props KTS915, Guido07111975, mattyrob, xxsimoxx',
 	];
 
 	public function __construct() {
